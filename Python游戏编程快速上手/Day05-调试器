@@ -1,0 +1,48 @@
+调试器可以帮助我们找到程序中导致bug的原因例如,下面是一个有bug的
+小程序。这个程序提出一个随机加法问题让用户解答。在交互式 shell窗口中,点击
+File,然后点击New Window,会打开一个新的文件编辑器窗口。在窗口中输入这
+个程序,然后把它保存为 buggy.py
+1. import random
+2. number1 random. randint(1,10)
+3. number2 =random. randint(, 10)
+4. print('What is+str(number11)++++str(number2)+)
+5. answer input()
+6. if answer= number1+ number22:
+7    print('Correct!')
+8.else:
+9.   print('nope! The answer is'+str(number1+ number22))
+##############################################################
+1. import random
+ 2. print ('I will flip a coin 1000 times. Guess how many times it will come up
+ heads. (Press enter to begin)')
+ 3.input()
+ 4. flips=0
+ 5. heads=0
+6.while flips<1000:
+    if random. randint(0,1)==1 
+     heads = heads + 1
+    flips flips +1
+
+11. if f11ps==900:
+12.    print('900 flips and there have been ' + str(heads)+'heads.')
+13. if flips==100:
+14.
+    print('at1 100 tosses, heads has come up'+str(heads)+''times
+    so far')
+15.  if flips==500:
+16
+     print('Halfway done, and heads has come up ' str(heads)+
+     times. '
+17.
+ 18. print()
+19.   print'Out of10 00 coin tosses, heads came up'+str(heads)+times!')
+ 20.  print('Were you close?')
+ 
+ #######################################################################
+ 小结：写出程序只是编程工作的第一部分。第二部分工作是确保编写的代码能够真正
+地工作。调试器让我们可以单步跟踪代码。我们可以查看哪些代码以何种顺序执行,
+以及变量中所包含的值。当这一切太慢了的时候,我们可以设置断点来让调试器在
+想要停止的代码行上停止。
+使用调试器是了解程序正在做什么的一种很好的方式。虽然本书针对所有游戏
+代码给出了说明,但是调试器可以帮助你自行找出更多的答案。
+
