@@ -1,0 +1,83 @@
+import random        #导入模块
+import time
+
+#设置引言
+def displayIntro():
+    print('''You are in a land full of dragons. In front of you ,you see two
+caves. In one cave, the dragon is friendly and will share his treasure with you
+. The other drangon is greedy and hungry, and will eat you on sight.''')
+    print()
+
+#玩家选择
+def chooseCave():
+    cave = ''
+    while cave != 1 and cave != 2:
+        print('Which cave will you go into?( 1 or 2 )')
+        cave = input()
+        return cave
+
+#设置对话流程，然后机器选择，以及判断与玩家选择是否相同
+def checkCave(chooseCave):
+    print('You approach the cave... ')
+    time.sleep(2)
+    print('It is dark and spooky...' )
+    time.sleep(2)
+    print('A large dragon jumps out in front of you! He opens his jaws and ...')
+    print()
+    time.sleep(3)
+
+    friendlyCave = random.randint(1,2)
+
+    if chooseCave == str(friendlyCave):
+        print('Gives you his treasure!')
+    else:
+        print('Gobbles you down in one bite!')
+
+#开始运行
+playAgin = 'yes'
+while playAgin == 'yes' or playAgin == 'y':
+    displayIntro()
+    caveNumber = chooseCave()
+    checkCave(caveNumber)
+
+    print('Do you want to play agin? (yse or no)')
+    playAgin = input()
+    
+########################################################################################
+
+1.Dragon Realm的流程图
+
+2.导入random和time模块
+time模块包含和时间相关的函数
+
+3.Dragon Realm中的函数
+函数使得我们可以多次运行相同的代码，而无需多次复制和粘贴源代码。所以，可以把代码放入到一个函数中，在需要的时候就调用这个函数。
+
+4.def语句
+def语句定义了一个新的函数，可以在随后的程序中调用该函数。def关键字后边紧跟着带有圆括号的函数名称，然后是一个冒号（:），def后边的语句块
+叫def语句块。如： def displayIntro():
+
+5.调用函数
+当定义一个函数的时候，在它的def语句块中指定该函数的指令。当调用一个函数的时候，会执行def语句块中的代码，除非调用该函数，def语句块中的指令是不会执行的。
+
+6.把函数定义放在哪里
+函数的def语句和def语句块必须放在该函数的调用之前。这就像是在使用变量之前必须先为变量赋一个值一样。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
