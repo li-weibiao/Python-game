@@ -1,0 +1,229 @@
+import random
+HANGMAN_PICS = ['''
++---+
+    |
+    |
+    |
+   ===''','''
++---+
+o   |
+    |
+    |
+   ===''','''
++---+
+o   |
+|   |
+    |
+   ===''','''
++---+
+o   |
+/\  |
+    |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+    |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+/   |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+/ \ |
+   ===''']
+
+words = 'cat dog pig red tea star pen fox love python linux english china bread wife beer music mariadb mysql apache docker'.split()
+
+def getRandomWord(wordList):
+    #This function returns a random string from the passed list of strings.
+    wordIndex = random.randint(0,len(wordList) - 1)
+    return wordList[wordIndex]
+
+def displayBoard(missedLetters,correctLetters,secretWord):
+    print(HANGMAN_PICS[len(missedLetters)])
+    print()
+
+    print('Missed letters:', end=' ')
+    for letter in missedLetters:
+        print(letter, end=' ')
+    print()
+    blanks = '_' * len(secretWord)
+
+    for i in range(len(secretWord)): # Replace blanks with correctly guessed letters.
+        if secretWord[i] in correctLetters:
+            blanks = blanks[:i] + secretWord[i] + blanks[i+1:]                     # [:1] in Python of list slicing
+
+    for letter in blanks: # Show the secret word with spaces in between each letter.
+        print(letter, end=' ')
+    print()
+
+def getGuess(alreadyGuessed):
+    # Returns the letter the player entered. This function makes sure the player entered a single letter and not something else.
+    while True:
+        print('Guess a letter.')
+        guess = input()
+        guess = guess.lower()     # .lower() in Python of Convert case. 
+        if len(guess) != 1:
+            print('Please enter a single letter.')
+        elif guess in alreadyGuessed:
+            print('You have already guessed that letter. Choose again.')
+        elif guess not in 'abcdefghijklmnopqrstuvwxyz':
+            print('Please enter a LETTER. ')
+        else:
+            return guess
+
+def playAgain():
+    # This function returns True if the player wants to play again; otherwise ,it returns False.
+    print('Do you want to play again? (yes or no)')
+    return input().lower().startswith('y')   # .startswith() in Python of 'letter start begin of appoint , the result is 'yes' return True , or ,return False.'
+    
+print('H A N G M A N')
+missedLetters = ''
+correctLetters = ''
+secretWord = getRandomWord(words)
+gameIsDone = False
+
+while True:
+    displayBoard(missedLetters,correctLetters,secretWord)
+
+    # Let the player enter a letter.
+    guess = getGuess(missedLetters + correctLetters)
+
+    if guess in secretWord:
+        correctLetters = correctLetters + guess
+
+        # Check if the player has won.
+        foundAllLetters = True
+        for i in range(len(secretWord)):
+            if secretWord[i] not in correctLetters:
+                foundAllLetters = False
+                break
+
+        if foundAllLetters:
+            print('Yes! The secret word is "' + secretWord + '"! You have won!')
+            gameIsDone = True
+    else:
+        missedLetters = missedLetters + guess
+
+        # Check if player has guessed too many times and lost.
+        if len(missedLetters) == len(HANGMAN_PICS) - 1:
+            displayBoard(missedLetters,correctLetters,secretWord)
+            print('You have run out of guess!\nAfter' + str(len(missedLetters)) + 'missed guesses and ' + str(len(correctLetters)) + 'correct guesses, the word was "' + secretWord + '"')
+            gameIsDone = True
+
+        #Ask the player if they want to play again (but only if the game is done.)
+    if gameIsDone:
+        if playAgain():
+            missedLetters = ''
+            correctLetters = ''
+            gameIsDone = False
+            secretWord = getRandomWord(words)
+        else:
+            break
+
+#######################################################################################            
+                
+ 1.导入random模块
+
+2.常量
+常量的编程惯例，变量名全部大写。遵循惯例，有助于其他程序员更容易阅读。
+
+3.列表数据类型
+列表值中可以包含许多其他值。逗号隔开列表中的各个值，这些值也叫做元素。
+（如果有数百个或数千个字符串的话，这段代码将会很难管理，但是一个列表可以很容易的包含任意多个值）
+
+4.用索引访问元素
+如：animals[0]
+
+5.用索引赋值来修改列表项
+如：animals[1] = 'ANTEATER'
+
+6.列表连接
+如：[1,2] + [3,4]
+
+7.in操作符
+可以判断一个值是否在一个列表中，字符串也可以判断，判断一个值是否在字符串里
+
+8.调用方法
+要调用一个方法，必须使用一个句点将其附加到一个具体的值上。
+
+9.列表方法reverse()和append()
+revers()方法会把列表中的元素的顺序反转。
+append()会把参数传递给它的值添加到列表的末尾。
+
+10.字符串方法split()
+它会返回多个字符串的一个列表，也就是说靠它可以将字符串给生成列表。
+
+11.从单词列表中获取一个神秘单词
+列表的长度和列表的索引并不相等，也就是说列表的长度用len()计算为3，而列表的索引只到2，因为索引是从0开始计算。
+
+12.向玩家显示游戏板
+
+13.list()函数和 range()函数
+range()函数生成范围，而 list()函数可以将生成的范围转化成列表 ，和前面的 split()函数类似。
+
+14.列表和字符串分片
+在列表的方括号中，使用冒号指定两个索引（开始索引和结束索引）
+如：spam[:2]
+注意，字符串中空格也算字符
+
+15.用空格表示神秘单词
+
+16.获取玩家的猜测
+
+17.字符串方法lower() 和 upper().
+lower() 转换为小写
+upper() 转换为大写
+
+18.离开while循环
+break 语句  or return语句
+
+19.elif语句
+
+20.确保玩家输入一个有效的猜测
+
+21.询问玩家是否想要再玩一局
+
+22.回顾 Hangman中的函数 
+
+23.游戏循环
+
+24.调用displayBoard()函数
+
+25.让玩家输入他们的猜测
+
+26.判断字母是否在这个神秘单词中
+
+27.判断玩家是否获胜
+
+28.当玩家猜错时
+
+29.检查玩家是否输了
+
+30.结束并重新设置游戏
+
+小结：本章是篇幅很长的一章,我们介绍了很多新的概念。但是, Hangman是目前为
+止我们编写的最高级的游戏。随着游戏越来越复杂,针对程序中会发生的事情,先
+在纸上草拟一个流程图,这是一个好主意。
+列表是包含了其他值的值。方法是特定于一个数据类型的函数。列表有 append()
+和 reverse()方法。字符串有 lower0、 upper()、 split(), startswith()和 endswith()方法。
+我们将在本书的剩余部分中学习更多的数据类型和方法。
+elif语句允许我们在if-else语句中间添加一条“or else if”子句。
+    
+
+
+                      
+                
+            
+
+            
+            
+                
+                
+        
+        
+    
