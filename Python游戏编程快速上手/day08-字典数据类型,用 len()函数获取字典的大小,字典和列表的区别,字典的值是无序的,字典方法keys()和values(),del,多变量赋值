@@ -1,0 +1,247 @@
+import random
+HANGMAN_PICS = ['''
++---+
+    |
+    |
+    |
+   ===''','''
++---+
+o   |
+    |
+    |
+   ===''','''
++---+
+o   |
+|   |
+    |
+   ===''','''
++---+
+o   |
+/\  |
+    |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+    |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+/   |
+   ===''','''
+-+--+
+ o  |
+/|\ |
+/ \ |
+   ===''','''
+-+--+
+[o  |
+/|\ |
+/ \ |
+   ===''','''
+-+--+
+[o] |
+/|\ |
+/ \ |
+   ==='''
+]
+
+words = {'animals':'cat dog pig'.split(),'color':'red green'.split()}
+
+
+def getRandomWord(wordDict):
+    #This function returns a random string from the passed dictionary of lists of strings and its key.
+    #First,randomly select a key from the dictionary.
+    wordKey = random.choice(list(wordDict.keys()))
+
+    #Second,randomly select a word from the key's list in the dictionary.
+    wordIndex = random.randint(0,len(wordDict[wordKey]) - 1)
+
+    return [wordDict[wordKey][wordIndex], wordKey]
+
+
+def displayBoard(missedLetters,correctLetters,secretWord):
+    print(HANGMAN_PICS[len(missedLetters)])
+    print()
+
+    print('Missed letters:', end=' ')
+    for letter in missedLetters:
+        print(letter, end=' ')
+    print()
+    blanks = '_' * len(secretWord)
+
+    for i in range(len(secretWord)): # Replace blanks with correctly guessed letters.
+        if secretWord[i] in correctLetters:
+            blanks = blanks[:i] + secretWord[i] + blanks[i+1:]                     # [:1] in Python of intercept
+
+    for letter in blanks: # Show the secret word with spaces in between each letter.
+        print(letter, end=' ')
+    print()
+
+
+def getGuess(alreadyGuessed):
+    # Returns the letter the player entered. This function makes sure the player entered a single letter and not something else.
+    while True:
+        print('Guess a letter.')
+        guess = input()
+        guess = guess.lower()     # .lower() in Python of Convert case. 
+        if len(guess) != 1:
+            print('Please enter a single letter.')
+        elif guess in alreadyGuessed:
+            print('You have already guessed that letter. Choose again.')
+        elif guess not in 'abcdefghijklmnopqrstuvwxyz':
+            print('Please enter a LETTER. ')
+        else:
+            return guess
+
+
+def playAgain():
+    # This function returns True if the player wants to play again; otherwise ,it returns False.
+    print('Do you want to play again? (yes or no)')
+    return input().lower().startswith('y')   # .startswith() in Python of 'letter start begin of appoint , the result is 'yes' return True , or ,return False.'
+    
+
+print('H A N G M A N')
+
+difficulty = ' '
+
+while difficulty not in 'EMH':
+    print('Enter difficulty: E - Easy, M - Medium, H - Hard')
+    difficulty = input().upper()
+
+if difficulty == 'M':
+    del HANGMAN_PICS[8]
+    del HANGMAN_PICS[7]
+
+if difficulty == 'H':
+    del HANGMAN_PICS[8]
+    del HANGMAN_PICS[7]
+    del HANGMAN_PICS[6]
+    del HANGMAN_PICS[5]
+    
+missedLetters = ''
+correctLetters = ''
+secretWord,secretSet = getRandomWord(words)
+gameIsDone = False
+
+while True:
+    print('The secret word is in the set: ' + secretSet)
+    displayBoard(missedLetters,correctLetters,secretWord)
+
+    # Let the player enter a letter.
+    guess = getGuess(missedLetters + correctLetters)
+
+    if guess in secretWord:
+        correctLetters = correctLetters + guess
+
+        # Check if the player has won.
+        foundAllLetters = True
+        for i in range(len(secretWord)):
+            if secretWord[i] not in correctLetters:
+                foundAllLetters = False
+                break
+
+        if foundAllLetters:
+            print('Yes! The secret word is "' + secretWord + '"! You have won!')
+            gameIsDone = True
+    else:
+        missedLetters = missedLetters + guess
+
+        # Check if player has guessed too many times and lost.
+        if len(missedLetters) == len(HANGMAN_PICS) - 1:
+            displayBoard(missedLetters,correctLetters,secretWord)
+            print('You have run out of guess!\nAfter' + str(len(missedLetters)) + 'missed guesses and ' + str(len(correctLetters)) + 'correct guesses, the word was "' + secretWord + '"')
+            gameIsDone = True
+
+        #Ask the player if they want to play again (but only if the game is done.)
+    if gameIsDone:
+        if playAgain():
+            missedLetters = ''
+            correctLetters = ''
+            gameIsDone = False
+            secretWord,secretSet = getRandomWord(words)
+        else:
+            break
+
+#######################################################################################            
+                
+1.字典数据类型
+ 字典是像列表一样的一个值的集合。但是访问字典中的元素使用的不是整数索引，我们可以使用
+任意数据类型的索引来访问字典，这些索引叫做字典的键(key).
+
+字典使用花括号{}
+
+在花括号之间的值是键值对。冒号左边的是键，冒号的右边是该键的值。我们可以使用键来访问值，就像用索引来访问
+列表中的元素一样。
+
+2.用 len()函数获取字典的大小
+
+3.字典和列表的区别
+字典和列表之前的区别之一，就是字典可以拥有任意数据类型的键，而不仅仅是字符串类型的键。
+
+可以使用for循环来遍历列表及字典中的键。
+eg:
+>>> looks = {'fruit':'apples','animals':'dogs'}
+>>> for k in looks:
+	print(k)
+
+	
+fruit
+animals
+>>> for k in looks:
+	print(looks[k])
+
+	
+apples
+dogs
+
+
+字典的值是无序的
+（字典是无序的，所以只要它们拥有相同的键值对，就会把它们看作是相等的。
+然而，列表是有序的，所以值相同但是顺序不同的两个列表，彼此是不相等的。）
+
+4.字典方法keys()和values()
+这两个方法分别返回类型为dict_keys 和 dict_valus 的值。和 range对象类似，使用 list()函数，可以
+以列表的形式返回这些数据类型的值。
+
+将 list()和keys() 或 values()方法一起使用，我们可以得到只包含字典的键或值的一个列表。
+
+5.在Hangman中使用单词的字典
+
+6.从一个列表中随即选取
+choice()函数接受一个列表作为参数，并且从中返回一个随机值。
+
+7.从列表中删除项
+del 语句
+
+8.多变量赋值
+如：spam,eggs = ['a','b']
+
+在赋值操作符（=）左边放置的变量，必须和赋值操作符右边的列表中的元素具有相同的数目。
+
+9.向玩家显示单词的分类
+
+小结：我们已经完成了 Hangman游戏。当在本章中给游戏添加额外的功能的时候,我
+们学习了一些新的概念。即使已经完成了一个游戏的编写,但是在学习了更多
+ Python编程知识之后,你总是可以添加更多的功能。
+字典与列表类似,不过它们可以使用任意类型的值作为索引,而不只是以整数
+为索引。字典的索引叫做键。
+多变量赋值是将列表中的值赋给多个变量的一种快捷方式。
+与本书前边介绍的程序相比, Hangman相当高级。截止到现在,我们了解了编
+写程序的大部分概念:变量、循环、函数以及诸如列表和字典这样的 Python数据类
+型。尽管本书后面的程序仍然会有一些挑战但是你已经完成了“攀爬”过程中最
+“陡峭”的部分。    
+
+
+                      
+                
+            
+
+            
+            
+                
+                
+        
+        
+    
